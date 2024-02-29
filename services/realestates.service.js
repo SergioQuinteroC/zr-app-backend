@@ -19,18 +19,24 @@ class RealestatesService {
 		}
 	}
 
-	getRealestates(limit, offset) {
+	async getRealestates(limit, offset) {
 		if (limit && offset) {
 			return this.realestates.slice(offset, offset + limit);
 		}
 		return this.realestates;
 	}
 
-	getRealestate(id) {
-		return this.realestates.find((realestate) => realestate.id === id);
+	async getRealestate(id) {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve(
+					this.realestates.find((realestate) => realestate.id === id)
+				);
+			}, 5000);
+		});
 	}
 
-	createRealestate(realestate) {
+	async createRealestate(realestate) {
 		const newRealestate = {
 			id: this.realestates.length,
 			...realestate,
@@ -39,19 +45,22 @@ class RealestatesService {
 		return newRealestate;
 	}
 
-	updateRealestate(id, realestate) {
+	async updateRealestate(id, realestate) {
 		const index = this.realestates.findIndex(
 			(realestate) => realestate.id === id
 		);
 		if (index === -1) {
 			throw new Error("Realestate not found");
 		}
-		const updatedRealestate = { ...this.realestates[index], ...realestate };
+		const updatedRealestate = {
+			...this.realestates[index],
+			...realestate,
+		};
 		this.realestates[index] = updatedRealestate;
 		return updatedRealestate;
 	}
 
-	deleteRealestate(id) {
+	async deleteRealestate(id) {
 		const index = this.realestates.findIndex(
 			(realestate) => realestate.id === id
 		);
