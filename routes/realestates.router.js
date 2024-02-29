@@ -47,4 +47,9 @@ router.get("/:id", (req, res) => {
 	});
 });
 
+router.post("/", (req, res) => {
+	const newRealstate = req.body;
+	res.status(201).json({ message: "created", data: newRealstate });
+});
+
 module.exports = router;
