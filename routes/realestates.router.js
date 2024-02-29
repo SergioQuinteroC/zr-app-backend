@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 			});
 		}
 
-		res.json(realestates);
+		res.status(200).json(realestates);
 	} else {
 		for (let i = 0; i < 10; i++) {
 			realestates.push({
@@ -31,13 +31,13 @@ router.get("/", (req, res) => {
 				images: [faker.image.url()],
 			});
 		}
-		res.json(realestates);
+		res.status(200).json(realestates);
 	}
 });
 
 router.get("/:id", (req, res) => {
 	const { id } = req.params;
-	res.json({
+	res.status(200).json({
 		id,
 		name: "Lote 2",
 		description: "blablabal 2",
@@ -55,12 +55,12 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
 	const { id } = req.params;
 	const data = req.body;
-	res.json({ message: "updated", data: { id, ...data } });
+	res.status(201).json({ message: "updated", data: { id, ...data } });
 });
 
 router.delete("/:id", (req, res) => {
 	const { id } = req.params;
-	res.json({ message: "deleted", id });
+	res.status(200).json({ message: "deleted", id });
 });
 
 module.exports = router;
