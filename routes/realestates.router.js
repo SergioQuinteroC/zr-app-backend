@@ -30,17 +30,18 @@ router.post("/", async (req, res) => {
 	res.status(201).json({ message: "created", data: createRealestate });
 });
 
-router.patch("/:id", async (req, res) => {
-	const { id } = req.params;
-	const data = req.body;
-	const updatedRealestate = await service.updateRealestate(
-		parseInt(id),
-		data
-	);
-	if (!updatedRealestate) {
-		res.status(404).json({ message: "No encontrado" });
+router.patch("/:id", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const data = req.body;
+		const updatedRealestate = await service.updateRealestate(
+			parseInt(id),
+			data
+		);
+		res.status(201).json({ message: "updated", data: updatedRealestate });
+	} catch (error) {
+		next(error);
 	}
-	res.status(201).json({ message: "updated", data: updatedRealestate });
 });
 
 router.delete("/:id", async (req, res) => {
