@@ -52,4 +52,15 @@ router.post("/", (req, res) => {
 	res.status(201).json({ message: "created", data: newRealstate });
 });
 
+router.patch("/:id", (req, res) => {
+	const { id } = req.params;
+	const data = req.body;
+	res.json({ message: "updated", data: { id, ...data } });
+});
+
+router.delete("/:id", (req, res) => {
+	const { id } = req.params;
+	res.json({ message: "deleted", id });
+});
+
 module.exports = router;
