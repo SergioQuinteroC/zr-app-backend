@@ -1,65 +1,51 @@
 const express = require("express");
-const { faker } = require("@faker-js/faker");
+const RealestatesService = require("../services/realestates.service");
 
 const router = express.Router();
+const service = new RealestatesService();
 
 router.get("/", (req, res) => {
 	const { limit, offset } = req.query;
-	const realestates = [];
-
-	if (limit & offset) {
-		for (let i = 0; i < limit; i++) {
-			realestates.push({
-				id: i,
-				title: faker.lorem.words(),
-				description: faker.lorem.paragraph(),
-				address: faker.location.streetAddress(),
-				price: faker.commerce.price(),
-				images: [faker.image.url()],
-			});
-		}
-
+	if (limit && offset) {
+		const realestates = service.getRealestates(limit, offset);
 		res.status(200).json(realestates);
 	} else {
-		for (let i = 0; i < 10; i++) {
-			realestates.push({
-				id: i,
-				title: faker.lorem.words(),
-				description: faker.lorem.paragraph(),
-				address: faker.location.streetAddress(),
-				price: faker.commerce.price(),
-				images: [faker.image.url()],
-			});
-		}
+		const realestates = service.getRealestates();
 		res.status(200).json(realestates);
 	}
 });
 
 router.get("/:id", (req, res) => {
 	const { id } = req.params;
-	res.status(200).json({
-		id,
-		name: "Lote 2",
-		description: "blablabal 2",
-		address: "Calle 2",
-		price: 1020,
-		images: ["image1", "image2"],
-	});
+	const realestate = service.getRealestate(parseInt(id));
+	if (!realestate) {
+		return res.status(404).json({ message: "No encontrado" });
+	}
+	return res.status(200).json(realestate);
 });
 
 router.post("/", (req, res) => {
-	const newRealstate = req.body;
-	res.status(201).json({ message: "created", data: newRealstate });
+	const newRealestate = req.body;
+	const createRealestate = service.createRealestate(newRealestate);
+	res.status(201).json({ message: "created", data: createRealestate });
 });
 
 router.patch("/:id", (req, res) => {
 	const { id } = req.params;
 	const data = req.body;
-	res.status(201).json({ message: "updated", data: { id, ...data } });
+	const updatedRealestate = service.updateRealestate(parseInt(id), data);
+	if (!updatedRealestate) {
+		res.status(404).json({ message: "No encontrado" });
+	}
+	res.status(201).json({ message: "updated", data: updatedRealestate });
 });
 
 router.delete("/:id", (req, res) => {
 	const { id } = req.params;
+	const deleteRealestate = service.deleteRealestate(parseInt(id));
+	if (!deleteRealestate) {
+		res.status(404).json({ message: "No encontrado" });
+	}
 	res.status(200).json({ message: "deleted", id });
 });
 
