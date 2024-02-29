@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const id = Joi.string().uuid();
+const id = Joi.string().id();
 const title = Joi.string().alphanum();
 const description = Joi.string();
 const address = Joi.string();
@@ -15,7 +15,7 @@ const createEstateSchema = Joi.object({
 	images: images.required(),
 });
 
-const updateEstate = Joi.object({
+const updateEstateSchema = Joi.object({
 	title: title,
 	description: description,
 	address: address,
@@ -23,8 +23,8 @@ const updateEstate = Joi.object({
 	images: images,
 });
 
-const getEstate = Joi.object({
+const getEstateSchema = Joi.object({
 	id: id.required(),
 });
 
-module.exports = { createEstateSchema, updateEstate, getEstate };
+module.exports = { createEstateSchema, updateEstateSchema, getEstateSchema };
