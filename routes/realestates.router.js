@@ -17,28 +17,25 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
 	const { id } = req.params;
-	const realestate = await service.getRealestate(parseInt(id));
-	if (!realestate) {
+	const estate = await service.getEstate(parseInt(id));
+	if (!estate) {
 		return res.status(404).json({ message: "No encontrado" });
 	}
-	return res.status(200).json(realestate);
+	return res.status(200).json(estate);
 });
 
 router.post("/", async (req, res) => {
-	const newRealestate = req.body;
-	const createRealestate = await service.createRealestate(newRealestate);
-	res.status(201).json({ message: "created", data: createRealestate });
+	const newEstate = req.body;
+	const createEstate = await service.createEstate(newEstate);
+	res.status(201).json({ message: "created", data: createEstate });
 });
 
 router.patch("/:id", async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const data = req.body;
-		const updatedRealestate = await service.updateRealestate(
-			parseInt(id),
-			data
-		);
-		res.status(201).json({ message: "updated", data: updatedRealestate });
+		const updateEstate = await service.updateEstate(parseInt(id), data);
+		res.status(201).json({ message: "updated", data: updateEstate });
 	} catch (error) {
 		next(error);
 	}
@@ -46,8 +43,8 @@ router.patch("/:id", async (req, res, next) => {
 
 router.delete("/:id", async (req, res) => {
 	const { id } = req.params;
-	const deleteRealestate = await service.deleteRealestate(parseInt(id));
-	if (!deleteRealestate) {
+	const deleteEstate = await service.deleteEstate(parseInt(id));
+	if (!deleteEstate) {
 		res.status(404).json({ message: "No encontrado" });
 	}
 	res.status(200).json({ message: "deleted", id });

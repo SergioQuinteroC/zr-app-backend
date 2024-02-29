@@ -27,7 +27,7 @@ class RealestatesService {
 		return this.realestates;
 	}
 
-	async getRealestate(id) {
+	async getEstate(id) {
 		const realestate = this.realestates.find(
 			(realestate) => realestate.id === id
 		);
@@ -37,7 +37,7 @@ class RealestatesService {
 		return realestate;
 	}
 
-	async createRealestate(realestate) {
+	async createEstate(realestate) {
 		const newRealestate = {
 			id: this.realestates.length,
 			...realestate,
@@ -46,7 +46,7 @@ class RealestatesService {
 		return newRealestate;
 	}
 
-	async updateRealestate(id, realestate) {
+	async updateEstate(id, realestate) {
 		const index = this.realestates.findIndex(
 			(realestate) => realestate.id === id
 		);
@@ -61,7 +61,7 @@ class RealestatesService {
 		return updatedRealestate;
 	}
 
-	async deleteRealestate(id) {
+	async deleteEstate(id) {
 		const index = this.realestates.findIndex(
 			(realestate) => realestate.id === id
 		);
