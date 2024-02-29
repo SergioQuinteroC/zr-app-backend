@@ -1,4 +1,5 @@
 const express = require("express");
+const { faker } = require("@faker-js/faker");
 
 const app = express();
 const port = 3000;
@@ -8,22 +9,35 @@ app.get("/", (req, res) => {
 });
 
 app.get("/realestate", (req, res) => {
-	res.json([
-		{
-			id: 1,
-			title: "Lote tal",
-			description: "blablabal",
-			price: 100,
-			images: ["image1", "image2"],
-		},
-		{
-			id: 2,
-			title: "Lote tal 2",
-			description: "blablabal 2",
-			price: 1020,
-			images: ["image1", "image2"],
-		},
-	]);
+	const { limit, offset } = req.query;
+	const realestate = [];
+
+	if (limit & offset) {
+		for (let i = 0; i < limit; i++) {
+			realestate.push({
+				id: i,
+				title: faker.lorem.words(),
+				description: faker.lorem.paragraph(),
+				address: faker.location.streetAddress(),
+				price: faker.commerce.price(),
+				images: [faker.image.url()],
+			});
+		}
+
+		res.json(realestate);
+	} else {
+		for (let i = 0; i < 10; i++) {
+			realestate.push({
+				id: i,
+				title: faker.lorem.words(),
+				description: faker.lorem.paragraph(),
+				address: faker.location.streetAddress(),
+				price: faker.commerce.price(),
+				images: [faker.image.url()],
+			});
+		}
+		res.json(realestate);
+	}
 });
 
 app.get("/realestate/:id", (req, res) => {
