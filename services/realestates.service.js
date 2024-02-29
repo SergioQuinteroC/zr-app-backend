@@ -1,4 +1,5 @@
 const { faker } = require("@faker-js/faker");
+const boom = require("@hapi/boom");
 
 class RealestatesService {
 	constructor() {
@@ -27,13 +28,13 @@ class RealestatesService {
 	}
 
 	async getRealestate(id) {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				resolve(
-					this.realestates.find((realestate) => realestate.id === id)
-				);
-			}, 5000);
-		});
+		const realestate = this.realestates.find(
+			(realestate) => realestate.id === id
+		);
+		if (!realestate) {
+			throw boom.notFound("Realestate not found");
+		}
+		return realestate;
 	}
 
 	async createRealestate(realestate) {
@@ -50,7 +51,7 @@ class RealestatesService {
 			(realestate) => realestate.id === id
 		);
 		if (index === -1) {
-			throw new Error("Realestate not found");
+			throw boom.notFound("Realestate not found");
 		}
 		const updatedRealestate = {
 			...this.realestates[index],
@@ -65,7 +66,7 @@ class RealestatesService {
 			(realestate) => realestate.id === id
 		);
 		if (index === -1) {
-			throw new Error("Realestate not found");
+			throw boom.notFound("Realestate not found");
 		}
 		this.realestates.splice(index, 1);
 		return { id };
