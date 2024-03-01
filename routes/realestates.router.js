@@ -11,14 +11,18 @@ const {
 const router = express.Router();
 const service = new RealestatesService();
 
-router.get("/", async (req, res) => {
-	const { limit, offset } = req.query;
-	if (limit && offset) {
-		const realestates = await service.getRealestates(limit, offset);
-		res.status(200).json(realestates);
-	} else {
-		const realestates = await service.getRealestates();
-		res.status(200).json(realestates);
+router.get("/", async (req, res, next) => {
+	try {
+		const { limit, offset } = req.query;
+		if (limit && offset) {
+			const realestates = await service.getRealestates(limit, offset);
+			res.status(200).json(realestates);
+		} else {
+			const realestates = await service.getRealestates();
+			res.status(200).json(realestates);
+		}
+	} catch (error) {
+		next(error);
 	}
 });
 
@@ -39,10 +43,14 @@ router.get(
 router.post(
 	"/",
 	validatorHandler(createEstateSchema, "body"),
-	async (req, res) => {
-		const newEstate = req.body;
-		const createEstate = await service.createEstate(newEstate);
-		res.status(201).json({ message: "created", data: createEstate });
+	async (req, res, next) => {
+		try {
+			const newEstate = req.body;
+			const createEstate = await service.createEstate(newEstate);
+			res.status(201).json({ message: "created", data: createEstate });
+		} catch (error) {
+			next(error);
+		}
 	}
 );
 
@@ -65,13 +73,14 @@ router.patch(
 router.delete(
 	"/:id",
 	validatorHandler(getEstateSchema, "params"),
-	async (req, res) => {
-		const { id } = req.params;
-		const deleteEstate = await service.deleteEstate(parseInt(id));
-		if (!deleteEstate) {
-			res.status(404).json({ message: "No encontrado" });
+	async (req, res, next) => {
+		try {
+			const { id } = req.params;
+			const deleteEstate = await service.deleteEstate(parseInt(id));
+			res.status(200).json({ message: "deleted", id: deleteEstate.id });
+		} catch (error) {
+			next(error);
 		}
-		res.status(200).json({ message: "deleted", id });
 	}
 );
 

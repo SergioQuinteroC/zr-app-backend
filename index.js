@@ -10,7 +10,8 @@ const {
 } = require("./middlewares/error.handler");
 
 const app = express();
-const port = 3000;
+// eslint-disable-next-line no-undef
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
