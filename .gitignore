@@ -19,6 +19,7 @@
 ### Docker ###
 postgres
 instruc.txt
+db_password.txt
 
 
 ### Node ###
