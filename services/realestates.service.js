@@ -1,15 +1,12 @@
 const { faker } = require("@faker-js/faker");
 const boom = require("@hapi/boom");
 
-// const getConnection = require("./../libs/postgres");
-const pool = require("./../libs/postgres.pool");
+const sequelize = require("../libs/sequelize");
 
 class RealestatesService {
 	constructor() {
 		this.realestates = [];
 		this.generateRealestates();
-		this.pool = pool;
-		this.pool.on("error", (err) => console.error(err));
 	}
 
 	generateRealestates() {
@@ -27,9 +24,9 @@ class RealestatesService {
 
 	async getRealestates(limit, offset) {
 		const query = "SELECT * FROM realestate";
-		const rta = await this.pool.query(query);
+		const [data] = await sequelize.query(query);
 
-		return rta.rows;
+		return data;
 		// if (limit && offset) {
 		// 	return this.realestates.slice(offset, offset + limit);
 		// }
