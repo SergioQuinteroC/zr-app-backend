@@ -1,7 +1,7 @@
 const { faker } = require("@faker-js/faker");
 const boom = require("@hapi/boom");
 
-const sequelize = require("../libs/sequelize");
+const { models } = require("./../libs/sequelize");
 
 class RealestatesService {
 	constructor() {
@@ -23,14 +23,16 @@ class RealestatesService {
 	}
 
 	async getRealestates(limit, offset) {
-		const query = "SELECT * FROM realestate";
-		const [data] = await sequelize.query(query);
+		if (limit && offset) {
+			const rta = await models.RealEstate.findAndCountAll({
+				limit,
+				offset,
+			});
+			return rta;
+		}
 
-		return data;
-		// if (limit && offset) {
-		// 	return this.realestates.slice(offset, offset + limit);
-		// }
-		// return this.realestates;
+		const rta = await models.RealEstate.findAll();
+		return rta;
 	}
 
 	async getEstate(id) {
