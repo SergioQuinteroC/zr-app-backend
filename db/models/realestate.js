@@ -29,15 +29,22 @@ const RealEstateSchema = {
 		type: DataTypes.ARRAY(DataTypes.STRING),
 		allowNull: false,
 	},
+	status: {
+		type: DataTypes.ENUM("active", "inactive"),
+		allowNull: false,
+		defaultValue: "active",
+	},
 	createdAt: {
 		type: DataTypes.DATE,
 		allowNull: false,
-		defaultValue: Sequelize.fn("now"),
+		defaultValue: Sequelize.NOW,
+		field: "created_at",
 	},
 	updatedAt: {
 		type: DataTypes.DATE,
 		allowNull: false,
-		defaultValue: Sequelize.fn("now"),
+		defaultValue: Sequelize.NOW,
+		field: "updated_at",
 	},
 };
 

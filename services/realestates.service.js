@@ -36,47 +36,28 @@ class RealestatesService {
 	}
 
 	async getEstate(id) {
-		const realestate = this.realestates.find(
-			(realestate) => realestate.id === id
-		);
-		if (!realestate) {
+		const estate = await models.RealEstate.findByPk(id);
+
+		if (!estate) {
 			throw boom.notFound("Realestate not found");
 		}
-		return realestate;
+		return estate;
 	}
 
 	async createEstate(realestate) {
-		const newRealestate = {
-			id: this.realestates.length,
-			...realestate,
-		};
-		this.realestates.push(newRealestate);
-		return newRealestate;
+		const newEstate = await models.RealEstate.create(realestate);
+		return newEstate;
 	}
 
-	async updateEstate(id, realestate) {
-		const index = this.realestates.findIndex(
-			(realestate) => realestate.id === id
-		);
-		if (index === -1) {
-			throw boom.notFound("Realestate not found");
-		}
-		const updatedRealestate = {
-			...this.realestates[index],
-			...realestate,
-		};
-		this.realestates[index] = updatedRealestate;
-		return updatedRealestate;
+	async updateEstate(id, changes) {
+		const estate = await models.RealEstate.findByPk(id);
+		const rta = await estate.update({ ...changes, updatedAt: new Date() });
+		return rta;
 	}
 
 	async deleteEstate(id) {
-		const index = this.realestates.findIndex(
-			(realestate) => realestate.id === id
-		);
-		if (index === -1) {
-			throw boom.notFound("Realestate not found");
-		}
-		this.realestates.splice(index, 1);
+		const estate = await models.RealEstate.findByPk(id);
+		await estate.destroy();
 		return { id };
 	}
 }
