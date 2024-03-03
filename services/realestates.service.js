@@ -1,26 +1,9 @@
-const { faker } = require("@faker-js/faker");
 const boom = require("@hapi/boom");
 
 const { models } = require("./../libs/sequelize");
 
 class RealestatesService {
-	constructor() {
-		this.realestates = [];
-		this.generateRealestates();
-	}
-
-	generateRealestates() {
-		for (let i = 0; i < 10; i++) {
-			this.realestates.push({
-				id: i,
-				title: faker.lorem.words(),
-				description: faker.lorem.paragraph(),
-				address: faker.location.streetAddress(),
-				price: faker.commerce.price(),
-				images: [faker.image.url()],
-			});
-		}
-	}
+	constructor() {}
 
 	async getRealestates(limit, offset) {
 		if (limit && offset) {
