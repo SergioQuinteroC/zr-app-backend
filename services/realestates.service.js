@@ -43,6 +43,13 @@ class RealestatesService {
 		await estate.destroy();
 		return { id };
 	}
+
+	async getBuyersByEstate(id) {
+		const estate = await models.RealEstate.findByPk(id, {
+			include: ["buyers"],
+		});
+		return estate;
+	}
 }
 
 module.exports = RealestatesService;

@@ -50,9 +50,13 @@ const RealEstateSchema = {
 
 class RealEstateModel extends Model {
 	static associate(models) {
-		// define relationships here
+		this.belongsToMany(models.Buyers, {
+			as: "buyers",
+			through: models.RealestateBuyers,
+			foreignKey: "realEstateId",
+			otherKey: "buyerId",
+		});
 	}
-
 	static config(sequelize) {
 		return {
 			sequelize,

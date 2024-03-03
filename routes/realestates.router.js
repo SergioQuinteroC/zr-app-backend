@@ -84,4 +84,14 @@ router.delete(
 	}
 );
 
+router.get("/:id/buyers", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const buyers = await service.getBuyersByEstate(parseInt(id));
+		res.status(200).json(buyers);
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
