@@ -7,6 +7,9 @@ const address = Joi.string();
 const price = Joi.number();
 const images = Joi.array().items(Joi.string());
 
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 const createEstateSchema = Joi.object({
 	title: title.required(),
 	description: description.required(),
@@ -27,4 +30,9 @@ const getEstateSchema = Joi.object({
 	id: id.required(),
 });
 
-module.exports = { createEstateSchema, updateEstateSchema, getEstateSchema };
+const queryEstateSchema = Joi.object({
+	limit,
+	offset,
+});
+
+module.exports = { createEstateSchema, updateEstateSchema, getEstateSchema, queryEstateSchema };

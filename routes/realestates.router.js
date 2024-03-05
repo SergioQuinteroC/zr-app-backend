@@ -6,25 +6,30 @@ const {
 	createEstateSchema,
 	updateEstateSchema,
 	getEstateSchema,
+	queryEstateSchema,
 } = require("../schemas/realestate.schema");
 
 const router = express.Router();
 const service = new RealestatesService();
 
-router.get("/", async (req, res, next) => {
-	try {
-		const { limit, offset } = req.query;
-		if (limit && offset) {
-			const realestates = await service.getRealestates(limit, offset);
-			res.status(200).json(realestates);
-		} else {
-			const realestates = await service.getRealestates();
-			res.status(200).json(realestates);
+router.get(
+	"/",
+	validatorHandler(queryEstateSchema, "query"),
+	async (req, res, next) => {
+		try {
+			const { limit, offset } = req.query;
+			if (limit && offset) {
+				const realestates = await service.getRealestates(limit, offset);
+				res.status(200).json(realestates);
+			} else {
+				const realestates = await service.getRealestates();
+				res.status(200).json(realestates);
+			}
+		} catch (error) {
+			next(error);
 		}
-	} catch (error) {
-		next(error);
 	}
-});
+);
 
 router.get(
 	"/:id",
