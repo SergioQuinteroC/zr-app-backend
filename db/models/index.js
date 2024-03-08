@@ -4,6 +4,7 @@ const {
 	RealEstateBuyersModel,
 	RealEstateBuyersSchema,
 } = require("./realestate-buyers.model");
+const { UserModel, UserSchema } = require("./user.model");
 
 function setupModels(sequelize) {
 	RealEstateModel.init(RealEstateSchema, RealEstateModel.config(sequelize));
@@ -12,6 +13,7 @@ function setupModels(sequelize) {
 		RealEstateBuyersSchema,
 		RealEstateBuyersModel.config(sequelize)
 	);
+	UserModel.init(UserSchema, UserModel.config(sequelize));
 
 	RealEstateModel.associate(sequelize.models);
 	BuyersModel.associate(sequelize.models);

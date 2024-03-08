@@ -12,6 +12,8 @@ const {
 	REALESTATE_BUYERS_TABLE,
 } = require("../models/realestate-buyers.model");
 
+const { UserSchema, USER_TABLE } = require("./../models/user.model");
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
@@ -21,11 +23,13 @@ module.exports = {
 			REALESTATE_BUYERS_TABLE,
 			RealEstateBuyersSchema
 		);
+		await queryInterface.createTable(USER_TABLE, UserSchema);
 	},
 
 	async down(queryInterface, Sequelize) {
 		await queryInterface.dropTable(REALESTATE_TABLE);
 		await queryInterface.dropTable(BUYERS_TABLE);
 		await queryInterface.dropTable(REALESTATE_BUYERS_TABLE);
+		await queryInterface.dropTable(USER_TABLE);
 	},
 };

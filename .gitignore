@@ -20,6 +20,8 @@
 postgres
 instruc.txt
 db_password.txt
+pass-hash.js
+pass-verify.js
 
 
 ### Node ###
