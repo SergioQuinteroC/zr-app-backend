@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 
 const RealestatesService = require("../services/realestates.service");
 const validatorHandler = require("../middlewares/validator.handler");
@@ -47,6 +48,7 @@ router.get(
 
 router.post(
 	"/",
+	passport.authenticate("jwt", { session: false }),
 	validatorHandler(createEstateSchema, "body"),
 	async (req, res, next) => {
 		try {
@@ -61,6 +63,7 @@ router.post(
 
 router.patch(
 	"/:id",
+	passport.authenticate("jwt", { session: false }),
 	validatorHandler(getEstateSchema, "params"),
 	validatorHandler(updateEstateSchema, "body"),
 	async (req, res, next) => {
@@ -77,6 +80,7 @@ router.patch(
 
 router.delete(
 	"/:id",
+	passport.authenticate("jwt", { session: false }),
 	validatorHandler(getEstateSchema, "params"),
 	async (req, res, next) => {
 		try {
@@ -89,14 +93,18 @@ router.delete(
 	}
 );
 
-router.get("/:id/buyers", async (req, res, next) => {
-	try {
-		const { id } = req.params;
-		const buyers = await service.getBuyersByEstate(parseInt(id));
-		res.status(200).json(buyers);
-	} catch (error) {
-		next(error);
+router.get(
+	"/:id/buyers",
+	passport.authenticate("jwt", { session: false }),
+	async (req, res, next) => {
+		try {
+			const { id } = req.params;
+			const buyers = await service.getBuyersByEstate(parseInt(id));
+			res.status(200).json(buyers);
+		} catch (error) {
+			next(error);
+		}
 	}
-});
+);
 
 module.exports = router;
