@@ -22,6 +22,8 @@ instruc.txt
 db_password.txt
 pass-hash.js
 pass-verify.js
+token-sign.js
+token-verify.js
 
 
 ### Node ###
