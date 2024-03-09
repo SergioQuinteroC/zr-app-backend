@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const id = Joi.string().id();
-const title = Joi.string().alphanum();
+const title = Joi.string();
 const description = Joi.string();
 const address = Joi.string();
 const price = Joi.number();
