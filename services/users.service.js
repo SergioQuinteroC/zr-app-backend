@@ -15,6 +15,12 @@ class UserService {
 
 	async find() {
 		const rta = await models.User.findAll();
+		rta.forEach((user) => delete user.dataValues.password);
+		return rta;
+	}
+
+	async findByEmail(email) {
+		const rta = await models.User.findOne({ where: { email } });
 		return rta;
 	}
 
