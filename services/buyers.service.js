@@ -19,9 +19,19 @@ class BuyersService {
 		return buyer;
 	}
 
-	async create(buyer) {
-		const newBuyer = await models.Buyers.create(buyer);
-		return newBuyer;
+	async create(data) {
+		const { idRealEstate, ...buyerData } = data;
+		const estate = await models.RealEstate.findByPk(idRealEstate);
+		if (!estate) {
+			throw boom.notFound("RealEstate not found");
+		}
+		const newBuyer = await models.Buyers.create(buyerData);
+		const { id: buyerId } = newBuyer;
+		const relation = await models.RealestateBuyers.create({
+			realEstateId: idRealEstate,
+			buyerId,
+		});
+		return { newBuyer, relation };
 	}
 
 	async updateBuyer(id, changes) {
