@@ -26,4 +26,23 @@ router.post(
 	}
 );
 
+router.post("/verify-token", (req, res, next) => {
+	const { token } = req.body;
+	try {
+		jwt.verify(token, config.jwtSecret, (err, decoded) => {
+			if (err) {
+				return res.status(401).send({
+					error: "Token invalido",
+				});
+			}
+			return res.status(200).send({
+				message: "Token valido",
+				decoded,
+			});
+		});
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
