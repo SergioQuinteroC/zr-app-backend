@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const id = Joi.string().id();
 const idRealEstate = Joi.string().id();
-const name = Joi.string().alphanum();
+const name = Joi.string();
 const lastName = Joi.string();
 const phone = Joi.string();
 

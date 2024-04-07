@@ -5,6 +5,7 @@ const title = Joi.string();
 const description = Joi.string();
 const address = Joi.string();
 const price = Joi.number();
+const category = Joi.string();
 const images = Joi.array().items(Joi.string());
 
 const limit = Joi.number().integer();
@@ -15,6 +16,7 @@ const createEstateSchema = Joi.object({
 	description: description.required(),
 	address: address.required(),
 	price: price.required(),
+	category: category.required(),
 	images: images.required(),
 });
 
@@ -23,6 +25,7 @@ const updateEstateSchema = Joi.object({
 	description: description,
 	address: address,
 	price: price,
+	category: category,
 	images: images,
 });
 
@@ -35,4 +38,9 @@ const queryEstateSchema = Joi.object({
 	offset,
 });
 
-module.exports = { createEstateSchema, updateEstateSchema, getEstateSchema, queryEstateSchema };
+module.exports = {
+	createEstateSchema,
+	updateEstateSchema,
+	getEstateSchema,
+	queryEstateSchema,
+};

@@ -14,7 +14,7 @@ const RealEstateSchema = {
 		allowNull: false,
 	},
 	description: {
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(2000),
 		allowNull: false,
 	},
 	address: {
@@ -23,6 +23,10 @@ const RealEstateSchema = {
 	},
 	price: {
 		type: DataTypes.DECIMAL,
+		allowNull: false,
+	},
+	category: {
+		type: DataTypes.STRING,
 		allowNull: false,
 	},
 	images: {

@@ -21,7 +21,7 @@ const RealEstateBuyersSchema = {
 			key: "id",
 		},
 		onUpdate: "CASCADE",
-		onDelete: "SET NULL",
+		onDelete: "CASCADE",
 	},
 	buyerId: {
 		field: "buyer_id",
@@ -32,7 +32,7 @@ const RealEstateBuyersSchema = {
 			key: "id",
 		},
 		onUpdate: "CASCADE",
-		onDelete: "SET NULL",
+		onDelete: "CASCADE",
 	},
 	createdAt: {
 		type: DataTypes.DATE,
