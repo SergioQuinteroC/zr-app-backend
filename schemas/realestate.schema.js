@@ -7,6 +7,7 @@ const address = Joi.string();
 const price = Joi.number();
 const category = Joi.string();
 const images = Joi.array().items(Joi.string());
+const status = Joi.string().valid("active", "inactive");
 
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
@@ -25,6 +26,7 @@ const updateEstateSchema = Joi.object({
 	description: description,
 	address: address,
 	price: price,
+	status: status,
 	category: category,
 	images: images,
 });
